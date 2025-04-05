@@ -1,7 +1,47 @@
+import os
+import zipfile
+import requests
+from keras.models import load_model
+
+MODEL_URL = "https://github.com/gaddamanish06/Plant-Disease-Detection-and-Pesticide-Recomendation/releases/download/v1.0/plant_disease_model.zip"
+
+if not os.path.exists("plant_disease_model.h5"):
+    with open("model.zip", "wb") as f:
+        f.write(requests.get(MODEL_URL).content)
+
+    with zipfile.ZipFile("model.zip", 'r') as zip_ref:
+        zip_ref.extractall()
+
+    os.remove("model.zip")
+
+model = load_model("plant_disease_model.h5")
+
+
+
+
+
+
+
+
+
+
+
 import streamlit as st
 import numpy as np
 from keras.models import load_model
 from PIL import Image, UnidentifiedImageError
+
+import streamlit as st
+from keras.models import load_model
+
+uploaded_file = st.file_uploader("Upload your model (.h5)", type=["h5"])
+
+if uploaded_file is not None:
+    model = load_model(uploaded_file)
+    st.success("Model loaded successfully!")
+else:
+    st.warning("Please upload the model file to proceed.")
+
 
 # Load the trained model
 model = load_model("plant_disease_model.h5")
