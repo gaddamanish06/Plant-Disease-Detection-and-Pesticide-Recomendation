@@ -1,22 +1,23 @@
 import os
 import zipfile
 import requests
-from keras.models import load_model
 
-MODEL_URL =  "https://github.com/user-attachments/files/19617768/plant_disease_model.zip"
+MODEL_URL = "https://github.com/gaddamanish06/Plant-Disease-Detection-and-Pesticide-Recomendation/releases/download/v1.0/plant_disease_model.zip"
+MODEL_PATH = "plant_disease_model.h5"
+ZIP_PATH = "model.zip"
 
+# Download if not present
+if not os.path.exists(MODEL_PATH):
+    print("Downloading model...")
+    response = requests.get(MODEL_URL)
+    with open(ZIP_PATH, "wb") as f:
+        f.write(response.content)
 
-
-if not os.path.exists("plant_disease_model.h5"):
-    with open("model.zip", "wb") as f:
-        f.write(requests.get(MODEL_URL).content)
-
-    with zipfile.ZipFile("model.zip", 'r') as zip_ref:
+    # Extract the zip
+    with zipfile.ZipFile(ZIP_PATH, 'r') as zip_ref:
         zip_ref.extractall()
+    os.remove(ZIP_PATH)
 
-    os.remove("model.zip")
-
-model = load_model("plant_disease_model.h5")
 
 
 
