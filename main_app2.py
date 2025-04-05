@@ -3,7 +3,8 @@ import zipfile
 import requests
 from keras.models import load_model
 
-MODEL_URL = https://github.com/user-attachments/files/19617574/plant_disease_model.zip
+MODEL_URL = "https://github.com/user-attachments/files/19617574/plant_disease_model.zip"
+
 
 if not os.path.exists("plant_disease_model.h5"):
     with open("model.zip", "wb") as f:
